@@ -44,6 +44,7 @@ class newrelic_infra::agent (
   $verbose = '',
   $log_file = '',
   $custom_attributes = {},
+  $service_ensure = 'running',
 ) {
   # Validate license key
   if $license_key == '' {
@@ -123,14 +124,14 @@ class newrelic_infra::agent (
   if ($::operatingsystem == 'CentOS' and $::operatingsystemmajrelease == '6')
   or ($::operatingsystem == 'Amazon') {
     service { 'newrelic-infra':
-      ensure => 'running',
+      ensure => $service_insure,
       provider => 'upstart',
       require => Package['newrelic-infra'],
     }
   } else {
     # Setup agent service
     service { 'newrelic-infra':
-      ensure => 'running',
+      ensure => $service_ensure,
       require => Package['newrelic-infra'],
     }
   }
