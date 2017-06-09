@@ -45,6 +45,7 @@ class newrelic_infra::agent (
   $log_file = '',
   $custom_attributes = {},
   $service_ensure = 'running',
+  $service_enable = true,
 ) {
   # Validate license key
   if $license_key == '' {
@@ -126,12 +127,14 @@ class newrelic_infra::agent (
     service { 'newrelic-infra':
       ensure => $service_insure,
       provider => 'upstart',
+      enable => $service_enable,
       require => Package['newrelic-infra'],
     }
   } else {
     # Setup agent service
     service { 'newrelic-infra':
       ensure => $service_ensure,
+      enable => $service_enable,
       require => Package['newrelic-infra'],
     }
   }
